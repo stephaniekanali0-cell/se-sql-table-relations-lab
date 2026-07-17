@@ -11,19 +11,24 @@ pd.read_sql("""SELECT * FROM sqlite_master""", conn)
 
 # STEP 1
 # Replace None with your code
-df_boston = None
+#Return the first and last names and the job titles
+
+df_boston = pd.read_sql("""SELECT firstName,lastName,jobTitle FROM employees;""",conn)
 
 # STEP 2
 # Replace None with your code
-df_zero_emp = None
+#'Ghost' location. Offices with zero employees
+df_zero_emp = pd.read_sql("""SELECT offices.officecode, COUNT(employeeNumber) AS employee_count FROM offices LEFT JOIN employees ON offices.officecode = employees.officecode GROUP BY offices.officecode HAVING employee_count = 0;""", conn)
 
 # STEP 3
 # Replace None with your code
-df_employee = None
+#Employees f.name,l.name, city, state, order-by f.name then l.name
+df_employee = pd.read_sql("""SELECT firstName, lastName, city, state FROM employees, offices ORDER BY firstName, lastName""",conn)
 
 # STEP 4
 # Replace None with your code
-df_contacts = None
+# Return all the customer's contact info(f.name, l.name, phone number, salerep )
+df_contacts = pd.read_sql("""SELECT firstName, lastName, phone, salesRepEmployeeNumber WHERE customerNumber NOT IN (SELECT customerNumber, FROM orders ORDER BY lastName DESC) FROM customers""",conn)
 
 # STEP 5
 # Replace None with your code
